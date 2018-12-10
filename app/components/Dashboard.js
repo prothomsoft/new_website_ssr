@@ -1,14 +1,22 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { logoutUser } from "../actions/authActions";
 import { Link } from "react-router-dom";
+import { bindActionCreators } from "redux";
+import { getDashboardData } from "../actions/dashboardActions";
+import { logoutUser } from "../actions/authActions";
 
 class Dashboard extends Component {
+    static fetchData(store) {
+        return store.dispatch(getDashboardData());
+    }
+
     constructor() {
         super();
     }
 
-    componentDidMount() {}
+    componentDidMount() {
+        this.props.getDashboardData();
+    }
 
     onLogoutClick(e) {
         e.preventDefault();
@@ -16,7 +24,8 @@ class Dashboard extends Component {
     }
 
     render() {
-        const { isAuthenticated, user } = this.props.auth;
+        const { isAuthenticated } = this.props.auth;
+        const { loading } = this.props.dashboard;
 
         const authLinks = (
             <div>
@@ -32,6 +41,8 @@ class Dashboard extends Component {
                 <div>guest</div>
             </div>
         );
+        const isLoading = <div>loading</div>;
+        const isNotLoading = <div>loaded</div>;
 
         return (
             <div>
@@ -46,16 +57,20 @@ class Dashboard extends Component {
                 </div>
                 <div>Authentication status:</div>
                 <div>{isAuthenticated ? authLinks : guestLinks}</div>
+                <div>{loading ? isLoading : isNotLoading}</div>
             </div>
         );
     }
 }
 
 const mapStateToProps = state => ({
-    auth: state.auth
+    auth: state.auth,
+    dashboard: state.dashboard
 });
-const mapDispatchToProps = {
-    logoutUser
+const mapDispatchToProps = dispatch => {
+    return {
+        ...bindActionCreators({ logoutUser, getDashboardData }, dispatch)
+    };
 };
 
 export default connect(

@@ -9,8 +9,7 @@
     "build:watch:client": "webpack --config ./webpack.config.js/ --watch",
     "build:prod": "npm run build && npm run build:client",
     "start": "npm run build:prod && NODE_ENV=production node ./build/server/index.js",
-    "start:dev": "concurrently \"npm run build:watch\" \"npm run build:watch:client\" \"nodemon ./build/server/index.js\"",
-    "test": "jest --watch --coverage"
+    "start:dev": "concurrently \"npm run build:watch\" \"npm run build:watch:client\" \"nodemon ./build/server/index.js\""
   },
   "author": "",
   "license": "ISC",
@@ -23,7 +22,8 @@
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-redux": "^6.0.0",
-    "react-router-config": "^4.4.0-beta.6",
+    "react-router": "^4.3.1",
+    "react-router-config": "1.0.0-beta.4",
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0"
