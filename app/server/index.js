@@ -11,10 +11,37 @@ import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { Provider } from "react-redux";
 
+import mongoose from "mongoose";
+import bodyParser from "body-parser";
+import passport from "passport";
+import users from "../routes/api/users";
+import posts from "../routes/api/posts";
+
 const app = express();
+const router = express.Router();
+
+// Body Parser Middleware:
+//app.use(bodyParser.urlencoded({ extended: false }));
+//app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "../")));
 
-app.get("*", handleRender);
+// Connect To MongoDB:
+mongoose.connect(
+    "mongodb://localhost/DevSpace",
+    { useNewUrlParser: true },
+    function(err) {
+        if (err) {
+            console.log("Error: Mongo Wasnt Connected because of: ", err);
+        } else {
+            console.log("MongoDB Connected");
+        }
+    }
+);
+
+router.use(users);
+router.use(posts);
+
+router.get("*", handleRender);
 
 function handleRender(req, res) {
     const store = createStore(rootReducer, applyMiddleware(thunk));
@@ -37,6 +64,8 @@ function handleRender(req, res) {
         res.status(200).send(renderFullPage(html, serializedState));
     });
 }
+
+app.use(router);
 
 const port = process.env.PORT || 5000;
 app.listen(port);
