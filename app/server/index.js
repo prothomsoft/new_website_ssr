@@ -58,8 +58,8 @@ router.get("*", handleRender);
 
 function handleRender(req, res) {
     const store = createStore(rootReducer, applyMiddleware(thunk));
-    const promises = matchRoutes(routes, req.originalUrl).map(({ route }) => {
-        return route.component.fetchData ? route.component.fetchData(store) : Promise.resolve(null);
+    const promises = matchRoutes(routes, req.originalUrl).map(({ route, match }) => {
+        return route.component.fetchData ? route.component.fetchData(store, match) : Promise.resolve(null);
     });
 
     return Promise.all(promises).then(data => {
@@ -72,6 +72,7 @@ function handleRender(req, res) {
             </Provider>
         );
         const serializedState = store.getState();
+        console.log(serializedState);
 
         res.status(200).send(renderFullPage(html, serializedState));
     });
