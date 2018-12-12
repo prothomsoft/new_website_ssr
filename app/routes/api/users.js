@@ -4,9 +4,10 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import keys from "../../config/keys";
 import passport from "passport";
-import validateRegisterInput from "../../validation/server/register";
-import validateLoginInput from "../../validation/server/login";
+import { validateRegisterInput } from "../../validation/server/register";
+import { validateLoginInput } from "../../validation/server/login";
 import User from "../../models/User";
+
 const router = express.Router();
 
 router.get("/api/users/test", (req, res) => res.json({ msg: keys.secretOrKey }));
@@ -53,6 +54,9 @@ router.post("/api/users/register", (req, res) => {
     });
 });
 
+// @route   GET api/users/login
+// @desc    Login User/ Returning JWT Token
+// @access  Public
 // @route   GET api/users/login
 // @desc    Login User/ Returning JWT Token
 // @access  Public

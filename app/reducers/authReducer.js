@@ -10,7 +10,7 @@ export default function(state = initialState, action) {
     switch (action.type) {
         case SET_CURRENT_USER:
             return {
-                ...state,
+                ...state, // Set the current state with ... (in current folder)
                 isAuthenticated: !isEmpty(action.payload),
                 user: action.payload
             };

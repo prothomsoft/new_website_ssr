@@ -11,9 +11,3 @@ export const GET_POSTS = "GET_POSTS";
 export const GET_POST = "GET_POST";
 export const ADD_POST = "ADD_POST";
 export const DELETE_POST = "DELETE_POST";
-
-export const HOME_GET_DATA = "HOME_GET_DATA";
-export const HOME_POST_LOADING = "HOME_POST_LOADING";
-
-export const DASHBOARD_GET_DATA = "DASHBOARD_GET_DATA";
-export const DASHBOARD_POST_LOADING = "DASHBOARD_POST_LOADING";

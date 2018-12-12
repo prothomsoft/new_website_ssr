@@ -10,20 +10,32 @@ import rootReducer from "../reducers";
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { Provider } from "react-redux";
+import passport from "passport";
 
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
-import passport from "passport";
-import users from "../routes/api/users";
 import posts from "../routes/api/posts";
+import profile from "../routes/api/profile";
+import users from "../routes/api/users";
+
+import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
 
 const app = express();
 const router = express.Router();
 
 // Body Parser Middleware:
-//app.use(bodyParser.urlencoded({ extended: false }));
-//app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "../")));
+
+// Passport Middleware:
+app.use(passport.initialize());
+
+// Passport Config:
+
+import { passportStrategy } from "../config/passport";
+passportStrategy(passport);
 
 // Connect To MongoDB:
 mongoose.connect(
@@ -38,14 +50,14 @@ mongoose.connect(
     }
 );
 
-router.use(users);
 router.use(posts);
+router.use(profile);
+router.use(users);
 
 router.get("*", handleRender);
 
 function handleRender(req, res) {
     const store = createStore(rootReducer, applyMiddleware(thunk));
-
     const promises = matchRoutes(routes, req.originalUrl).map(({ route }) => {
         return route.component.fetchData ? route.component.fetchData(store) : Promise.resolve(null);
     });
