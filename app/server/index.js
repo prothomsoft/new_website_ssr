@@ -18,8 +18,7 @@ import posts from "../routes/api/posts";
 import profile from "../routes/api/profile";
 import users from "../routes/api/users";
 
-import Navbar from "../components/layout/Navbar";
-import Footer from "../components/layout/Footer";
+import { ServerStyleSheet } from "styled-components";
 
 const app = express();
 const router = express.Router();
@@ -64,17 +63,22 @@ function handleRender(req, res) {
 
     return Promise.all(promises).then(data => {
         let context = {};
+        const sheet = new ServerStyleSheet();
         const html = renderToString(
-            <Provider store={store}>
-                <StaticRouter context={context} location={req.url}>
-                    {renderRoutes(routes)}
-                </StaticRouter>
-            </Provider>
+            sheet.collectStyles(
+                <Provider store={store}>
+                    <StaticRouter context={context} location={req.url}>
+                        {renderRoutes(routes)}
+                    </StaticRouter>
+                </Provider>
+            )
         );
+        const styles = sheet.getStyleTags();
+        console.log(styles);
         const serializedState = store.getState();
         console.log(serializedState);
 
-        res.status(200).send(renderFullPage(html, serializedState));
+        res.status(200).send(renderFullPage(html, styles, serializedState));
     });
 }
 

@@ -1,9 +1,10 @@
-export default function renderFullPage(html, serializedState) {
+export default function renderFullPage(html, styles, serializedState) {
     return `
         <!doctype html>
         <html>
         <head>
             <title>Your SSR React Router Node App initialised with data server side!</title>
+            ${styles}
         </head>
         <body>
             <div id="root">${html}</div>
