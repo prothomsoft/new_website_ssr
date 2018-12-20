@@ -17,6 +17,7 @@ import bodyParser from "body-parser";
 import posts from "../routes/api/posts";
 import profile from "../routes/api/profile";
 import users from "../routes/api/users";
+import { Helmet } from "react-helmet";
 
 import { ServerStyleSheet } from "styled-components";
 
@@ -74,11 +75,10 @@ function handleRender(req, res) {
             )
         );
         const styles = sheet.getStyleTags();
-        console.log(styles);
         const serializedState = store.getState();
-        console.log(serializedState);
+        const helmet = Helmet.renderStatic();
 
-        res.status(200).send(renderFullPage(html, styles, serializedState));
+        res.status(200).send(renderFullPage(html, helmet, styles, serializedState));
     });
 }
 

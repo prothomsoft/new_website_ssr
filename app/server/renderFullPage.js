@@ -1,12 +1,14 @@
-export default function renderFullPage(html, styles, serializedState) {
+export default (html, helmet, styles, serializedState) => {
     return `
         <!doctype html>
-        <html>
+        <html ${helmet.htmlAttributes.toString()}>
         <head>
-            <title>Your SSR React Router Node App initialised with data server side!</title>
+            ${helmet.title.toString()}
+            ${helmet.meta.toString()}
+            ${helmet.link.toString()}
             ${styles}
         </head>
-        <body>
+        <body ${helmet.bodyAttributes.toString()}>
             <div id="root">${html}</div>
             <script>
             window.__PRELOADED_STATE__ = ${JSON.stringify(serializedState).replace(/</g, "\\u003c")}
@@ -15,4 +17,4 @@ export default function renderFullPage(html, styles, serializedState) {
         </body>
         </html>
     `;
-}
+};

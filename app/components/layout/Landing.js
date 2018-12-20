@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { PropTypes } from "prop-types";
 import { connect } from "react-redux";
+import Helmet from "react-helmet";
 
 class Landing extends Component {
     componentDidMount() {
@@ -13,6 +14,7 @@ class Landing extends Component {
     render() {
         return (
             <div className="landing">
+                <Helmet title="About" meta={[{ property: "og:title", content: "About" }]} />
                 <div className="dark-overlay landing-inner text-light">
                     <div className="container">
                         <div className="row">

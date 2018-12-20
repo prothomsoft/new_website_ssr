@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import Spinner from "../common/Spinner";
 import ProfileItem from "./ProfileItem";
 import { getProfiles } from "../../actions/profileActions";
+import Helmet from "react-helmet";
 
 class Profiles extends Component {
     static fetchData(store) {
@@ -30,6 +31,7 @@ class Profiles extends Component {
 
         return (
             <div className="profiles">
+                <Helmet title="Profiles" meta={[{ property: "og:title", content: "About" }]} />
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12">
